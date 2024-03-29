@@ -1,4 +1,4 @@
-# <pre>                        TrackNBook</pre>
+# <pre>                    TrackNBook</pre>
 <hr><br>
 This is a Ticket Booking Project made using only C, that uses the following Data Structures:<br><br>
 1. Linked List <br>
