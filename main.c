@@ -9,6 +9,7 @@ int main(){
     printf("   _||_   ||       \\//         \\ \\______/_||_ \\__   _||_     _||_    ||_____/   \\____//    \\____//  _||_ \\__\n");
     printf("___________________________________________________________________________________________________________\n");
     //History check krne ke liye ek kam krna naam ke sath save krna , isse log in ka kuch toh use ajayega
+    //make a array of string with places within nagpur and make a adjency matrix 
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
@@ -21,7 +22,7 @@ int main(){
             char username[100];
             char password1[100];
             char password2[100];
-            printf("Enter UserName : ");
+            printf("Enter UserName(without space) : ");
             scanf("%s",username);
             printf("Enter Password : ");
             scanf("%s",password1);
@@ -36,9 +37,37 @@ int main(){
                 printf("\nUser already exists or password does not match, Try again.\n");
             }
         }
+        else if(choice==2){
+            char username[100];
+            char password1[100];
+            printf("Enter username(without space) : ");
+            scanf("%s",username);
+            printf("Enter Password : ");
+            scanf("%s",password1);
+            //check if these are in notepad or not
+            int exist = 0;
+            if(exist!=1){
+                int choice1;
+                printf("\nWelcome %s",username);
+                printf("\nWhat would you like to do today?");
+                printf("\n1. Book a Cab");
+                printf("\n2. Book a Bus");
+                printf("\n3. Shortest Path Calculator");
+                printf("\n4. Fare Calculator");
+                //shortest path calculator mai dijikistra algo lagane 
+                //aur options ke bade soche asap
+            }
+            else{
+                printf("\nWrong Username or Password please enter again.");
+            }
+            printf("\n");
+        }
         else if(choice==3){
             printf("Thank You\n");
             break;
+        }
+        else{
+            printf("Enter Choice from 1-3\n");
         }
     }
 }
