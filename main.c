@@ -9,6 +9,7 @@ struct node{
     int val;
     struct node* next;
 };
+//add all the orange line and aqua line stations to the struct and then traverse through it 
 void printLL(struct node* head){
     int i = 0;
     while(head!=NULL){
@@ -113,7 +114,7 @@ int main(){
                     }
                     else if(choice==3){
                         printf("\nStart Point : ");
-                        printf("\n1. Blue Line");
+                        printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
                         printf("\nEnter Choice : ");
                         int line;
@@ -129,7 +130,7 @@ int main(){
                             scanf("%d",&line2st);
                         }
                         printf("\nEnd Point : ");
-                        printf("\n1. Blue Line");
+                        printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
                         printf("\nEnter Choice : ");
                         int line;
@@ -146,6 +147,7 @@ int main(){
                         }
                         if(line1ed!=-1 && line1st!=-1){
                             printf("\nThe cost is : %d",5*(abs(line1ed-line1st)));
+                            //add confirmation to book the ticket 
                         }
                     }
                     else if(choice==4){
