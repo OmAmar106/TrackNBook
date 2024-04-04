@@ -1,13 +1,50 @@
 #include<stdio.h>
 #include<string.h>
-int N = 20;
-char locations[20][20] = {"Butibori","IIIT Nagpur","Airport Metro"};
+#include<stdbool.h>
+#include<limits.h>
+#define N 20
+char locations[N][20] = {"Butibori","IIIT Nagpur","Airport Metro"};
 int arr[10][10];
-void print(char arr[N][20]){
-    printf("\n");
-    for(int i=0;i<N;i++){
-        printf("%d. %s\n",i+1,arr[i]);
+struct node{
+    int val;
+    struct node* next;
+};
+void printLL(struct node* head){
+    int i = 0;
+    while(head!=NULL){
+        printf("\n%d. %d",i+1,head->val);
+        head = head->next;
     }
+}
+int minDistance(int dist[], bool sptSet[])
+{
+    int min = INT_MAX, min_index;
+    for (int v = 0; v < N; v++)
+        if (sptSet[v] == false && dist[v] <= min)
+            min = dist[v], min_index = v;
+    return min_index;
+}
+void printSolution(int dist[],int dest,int src)
+{
+    printf("\nDistance from %s to %s is %d\n",locations[src],locations[dest],dist[dest]);
+}
+void dijkstra(int graph[N][N], int src,int dest)
+{
+    int dist[N]; 
+    bool sptSet[N];
+    for (int i = 0; i < N; i++)
+        dist[i] = INT_MAX, sptSet[i] = false;
+    dist[src] = 0;
+    for (int count = 0; count < N - 1; count++) {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = true;
+        for (int v = 0; v < N; v++)
+            if (!sptSet[v] && graph[u][v]
+                && dist[u] != INT_MAX
+                && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v];
+    }
+    printSolution(dist,dest,src);
 }
 int main(){
     printf(" ________  _______        _       ______  _   __    _  _     ___     ______     _____      _____     _  __\n");
@@ -63,8 +100,8 @@ int main(){
                     printf("\n\nWhat would you like to do today?");
                     printf("\n1. Book a Cab");
                     printf("\n2. Book a Bus");
-                    printf("\n3. Shortest Path Calculator");
-                    printf("\n4. Fare Calculator");
+                    printf("\n3. Book a Metro");
+                    printf("\n4. Shortest Path Calculator");
                     printf("\n5. Veiw last Booking");
                     printf("\n6. Log out");
                     printf("\nEnter choice : ");
@@ -74,7 +111,44 @@ int main(){
                     if(choice1==1){
                         continue;
                     }
-                    else if(choice==5){
+                    else if(choice==3){
+                        printf("\nStart Point : ");
+                        printf("\n1. Blue Line");
+                        printf("\n2. Orange Line");
+                        printf("\nEnter Choice : ");
+                        int line;
+                        scanf("%d",&line);
+                        int line1st = -1;
+                        int line2st = -1;
+                        if(line==1){
+                            printLL(BlueHead);
+                            scanf("%d",&line1st)
+                        }
+                        else{
+                            printLL(OrangedHead);
+                            scanf("%d",&line2st);
+                        }
+                        printf("\nEnd Point : ");
+                        printf("\n1. Blue Line");
+                        printf("\n2. Orange Line");
+                        printf("\nEnter Choice : ");
+                        int line;
+                        scanf("%d",&line);
+                        int line1ed = -1;
+                        int line2ed = -1;
+                        if(line==1){
+                            printLL(BlueHead);
+                            scanf("%d",&line1ed)
+                        }
+                        else{
+                            printLL{OrangedHead};
+                            scanf("%d",&line2ed);
+                        }
+                        if(line1ed!=-1 && line1st!=-1){
+                            printf("\nThe cost is : %d",5*(abs(line1ed-line1st)));
+                        }
+                    }
+                    else if(choice==4){
                         int startpoint;
                         print(locations);
                         printf("\nEnter Start Point : ");
@@ -83,18 +157,7 @@ int main(){
                         printf("\nEnter End Point : ");        
                         scanf("%d",&endpoint);
                         //apply algo here
-                    }
-                    else if(choice1==4){
-                        int startpoint;
-                        print(locations);
-                        printf("\nEnter Start Point : ");
-                        scanf("%d",&startpoint);
-                        int endpoint;
-                        printf("\nEnter End Point : ");        
-                        scanf("%d",&endpoint);
-                        //print types of mode
-                        printf("\nEnter mode : ");
-                        //perform dijikistras algo then multiply depending upon the type of mode
+                        dijkstra(arr,startpoint-1,endpoint-1);
                     }
                     else if(choice1==6){
                         break;
