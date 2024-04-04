@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 int N = 20;
-char locations[20][20] = {"Butibori","IIITN","Airport Metro"};
+char locations[20][20] = {"Butibori","IIIT Nagpur","Airport Metro"};
 int arr[10][10];
 void print(char arr[N][20]){
     printf("\n");
@@ -73,6 +73,16 @@ int main(){
                     //aur options ke bade soche asap
                     if(choice1==1){
                         continue;
+                    }
+                    else if(choice==5){
+                        int startpoint;
+                        print(locations);
+                        printf("\nEnter Start Point : ");
+                        scanf("%d",&startpoint);
+                        int endpoint;
+                        printf("\nEnter End Point : ");        
+                        scanf("%d",&endpoint);
+                        //apply algo here
                     }
                     else if(choice1==4){
                         int startpoint;
