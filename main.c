@@ -145,6 +145,8 @@ int main(){
         int choice;
         scanf("%d",&choice);
         printf("\n");
+        struct node* AquaHead = aqua();
+        struct node* OrangeHead = orange();
         if(choice==1){
             char username[100];
             char password1[100];
@@ -171,6 +173,30 @@ int main(){
             scanf("%s",username);
             printf("Enter Password : ");
             scanf("%s",password1);
+            if(strcmp(username,"admin")==0 && strcmp(password1,"#pas123")==0){
+                while(true){
+                    printf("\n\nWhat would you like to do today?");
+                    printf("\n1. Add a Station in Orange Line");
+                    printf("\n2. Add a Station in Aqua Line");
+                    printf("\n3. Veiw users");
+                    printf("\n4. Log Out");
+                    int choice3;
+                    printf("\nEnter Choice : ");
+                    scanf("%d",&choice3);
+                    if(choice==1){
+                        printLL(OrangeHead);
+                        printf("\nEnter number of stops after which you want to insert : ");
+                        //ab insert stop then insert at pos banao , 
+                        //insert at beg and end ko alag se banado 
+                    }
+                    else if(choice3==4){
+                        break;
+                    }
+                    else{
+                        printf("\nEnter values from 1-4.");
+                    }
+                }
+            }
             //check if these are in notepad or not
             int exist = 0;
             if(exist!=1){
@@ -192,8 +218,6 @@ int main(){
                         continue;
                     }
                     else if(choice1==3){
-                        struct node* AquaHead = aqua();
-                        struct node* OrangeHead = orange();
                         printf("\nStart Point : ");
                         printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
@@ -251,7 +275,7 @@ int main(){
                     else if(choice1==4){
                         int startpoint;
                         print(locations);
-                        printf("\nEnter Start Point : ");
+                        printf("\n\nEnter Start Point : ");
                         scanf("%d",&startpoint);
                         int endpoint;
                         printf("\nEnter End Point : ");        
