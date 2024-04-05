@@ -1,21 +1,37 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 #include<stdbool.h>
 #include<limits.h>
 #define N 20
 char locations[N][20] = {"Butibori","IIIT Nagpur","Airport Metro"};
-int arr[10][10];
+int arr[N][N];
 struct node{
-    int val;
+    char name[50];
     struct node* next;
+    struct node* prev;
 };
 //add all the orange line and aqua line stations to the struct and then traverse through it 
 void printLL(struct node* head){
     int i = 0;
     while(head!=NULL){
-        printf("\n%d. %d",i+1,head->val);
+        printf("\n%d. %s",i+1,head->name);
         head = head->next;
+        i++;
     }
+}
+void print(char arr[N][20]){
+    for(int i=0;i<N;i++){
+        printf("\n%d. %s",i+1,arr[i]);
+    }
+}
+struct node* createnode(char name[]){
+    struct node* new;
+    new=(struct node*)malloc(sizeof(struct node));
+    strcpy(new->name,name);
+    new->next=NULL;
+    new->prev=NULL;
+    return new;
 }
 int minDistance(int dist[], bool sptSet[])
 {
@@ -46,6 +62,68 @@ void dijkstra(int graph[N][N], int src,int dest)
                 dist[v] = dist[u] + graph[u][v];
     }
     printSolution(dist,dest,src);
+}
+struct node* add(struct node*head,char name[])
+{
+    struct node*newstation=createnode(name);
+    if(head==NULL)
+    {
+        return newstation;
+    }
+    struct node*temp=head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=newstation;
+    newstation->prev=temp;
+    return head;
+}
+struct node* aqua(){
+    struct node*head=NULL;
+    head=add(head,"PRAJAPATI NAGAR");
+    head=add(head,"VAISHNODEVI SQUARE");
+    head=add(head,"AMBEDKAR SQUARE");
+    head=add(head,"TELEPHONE EXCHANGE");
+    head=add(head,"CHITAROLI SQUARE");
+    head=add(head,"AGRASEN SQUARE");
+    head=add(head,"DOSAR VAISHYA SQUARE");
+    head=add(head,"NAGPUR RAILWAY STATION");
+    head=add(head,"COTTON MARKET");
+    head=add(head,"SITABULDI");
+    head=add(head,"JHANSI RANI SQUARE");
+    head=add(head,"INSTITUTE OF ENGINEERS");
+    head=add(head,"SHANKAR NAGAR SQUARE");
+    head=add(head,"L.A.D. COLLLEGE SQUARE");
+    head=add(head,"AMBAZARI LAKE");
+    head=add(head,"SUBHASH NAGAR");
+    head=add(head,"RACHANA RING ROAD JUNCTION");
+    head=add(head,"VASUDEV NAGAR");
+    head=add(head,"BANSI NAGAR");
+    head=add(head,"LOKMANYA NAGAR");
+    return head;
+}
+struct node*orange(){
+    struct node*head=NULL;
+    head=add(head,"AUTOMATIVE SQUARE");
+    head=add(head,"NARI ROAD");
+    head=add(head,"INDORA SQUARE");
+    head=add(head,"KADVI SQUARE");
+    head=add(head,"GADDI GODAM SQUARE");
+    head=add(head,"KASTURCHAND PARK");
+    head=add(head,"ZERO MILE");
+    head=add(head,"SITABULDI");
+    head=add(head,"CONGRESS NAGAR");
+    head=add(head,"RAHATE COLONY");
+    head=add(head,"AJNI SQUARE");
+    head=add(head,"CHHATRAPATI SQUARE");
+    head=add(head,"JAIPRAKASH NAGAR");
+    head=add(head,"UJJWAL NAGAR");
+    head=add(head,"AIRPORT");
+    head=add(head,"AIRPORT SOUTH");
+    head=add(head,"NEW AIRPORT");
+    head=add(head,"KHAPRI");
+    return head;
 }
 int main(){
     printf(" ________  _______        _       ______  _   __    _  _     ___     ______     _____      _____     _  __\n");
@@ -105,14 +183,16 @@ int main(){
                     printf("\n4. Shortest Path Calculator");
                     printf("\n5. Veiw last Booking");
                     printf("\n6. Log out");
-                    printf("\nEnter choice : ");
+                    printf("\n\nEnter choice : ");
                     scanf("%d",&choice1);
                     //shortest path calculator mai dijikistra algo lagane 
                     //aur options ke bade soche asap
                     if(choice1==1){
                         continue;
                     }
-                    else if(choice==3){
+                    else if(choice1==3){
+                        struct node* AquaHead = aqua();
+                        struct node* OrangeHead = orange();
                         printf("\nStart Point : ");
                         printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
@@ -122,35 +202,52 @@ int main(){
                         int line1st = -1;
                         int line2st = -1;
                         if(line==1){
-                            printLL(BlueHead);
-                            scanf("%d",&line1st)
+                            printLL(AquaHead);
+                            printf("\nEnter Choice : ");
+                            scanf("%d",&line1st);
                         }
                         else{
-                            printLL(OrangedHead);
+                            printLL(OrangeHead);
+                            printf("\nEnter Choice : ");
                             scanf("%d",&line2st);
                         }
                         printf("\nEnd Point : ");
                         printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
                         printf("\nEnter Choice : ");
-                        int line;
                         scanf("%d",&line);
                         int line1ed = -1;
                         int line2ed = -1;
                         if(line==1){
-                            printLL(BlueHead);
-                            scanf("%d",&line1ed)
+                            printLL(AquaHead);
+                            printf("\nEnter Choice : ");
+                            scanf("%d",&line1ed);
                         }
                         else{
-                            printLL{OrangedHead};
+                            printLL(OrangeHead);
+                            printf("\nEnter Choice : ");
                             scanf("%d",&line2ed);
                         }
                         if(line1ed!=-1 && line1st!=-1){
                             printf("\nThe cost is : %d",5*(abs(line1ed-line1st)));
+                            printf("\nNumber of station you will be passing: %d",(abs(line1ed-line1st)));
                             //add confirmation to book the ticket 
                         }
+                        else if(line2ed!=-1 && line2st!=-1){
+                            printf("\nThe cost is : %d",5*(abs(line2ed-line2st)));
+                            printf("\nNumber of station you will be passing: %d",(abs(line2ed-line2st)));
+                        }
+                        else if(line2st==-1 && line1ed==-1){
+                            printf("\nThe cost is : %d",5*(abs(line2ed-8)+abs(10-line1st)));
+                            printf("\nNumber of station you will be passing: %d",(abs(line2ed-8)+abs(10-line1st)));
+                        }
+                        else{
+                            printf("\nThe cost is : %d",5*(abs(line1ed-10)+abs(8-line2st)));
+                            printf("\nNumber of station you will be passing: %d",(abs(line1ed-10)+abs(8-line2st)));
+                        }
+                        printf("\n");
                     }
-                    else if(choice==4){
+                    else if(choice1==4){
                         int startpoint;
                         print(locations);
                         printf("\nEnter Start Point : ");
