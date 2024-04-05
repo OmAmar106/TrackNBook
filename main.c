@@ -139,6 +139,7 @@ int main(){
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
+        //veiw message ka option bhi dal dunga 
         printf("3. Exit\n\n");
         printf("Enter Choice : ");
         int choice;
