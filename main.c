@@ -11,6 +11,16 @@ struct node{
     struct node* next;
     struct node* prev;
 };
+//use stack to show history of user login on the site like used in moodle and all , would add plently of lines.
+//it would just need a push operation, and if they want to hide their user profile from being seen by the admin.
+//they can hide their ids
+//i will also let other users see their ids.
+//this would add lots of lines and make it more interesting and use one more data structure now how could i 
+//possibly use queues , that is the quesiton. 
+struct node1{
+    char name[50];
+    struct node* next;
+};
 //add all the orange line and aqua line stations to the struct and then traverse through it 
 void printLL(struct node* head){
     int i = 0;
