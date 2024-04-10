@@ -63,6 +63,23 @@ void dijkstra(int graph[N][N], int src,int dest)
     }
     printSolution(dist,dest,src);
 }
+struct node* enteratpos(struct node* head,int data){
+    struct node* head1 = head;
+    char str[50];
+    for(int i=0;i<data;i++){
+        head=head->next;
+    }
+    printf("\nEnter Name of the station : ");
+    scanf("%s",str);
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    strcpy(newnode->name,str);
+    newnode->next = head->next;
+    newnode->prev=head;
+    head->next = newnode; 
+    newnode->next->prev = newnode;
+    return head1;
+}
+//make insert at beg and at end depending upon the input
 struct node* add(struct node*head,char name[])
 {
     struct node*newstation=createnode(name);
@@ -136,6 +153,8 @@ int main(){
     //History check krne ke liye ek kam krna naam ke sath save krna , isse log in ka kuch toh use ajayega
     //make a array of string with places within nagpur and make a adjency matrix 
     //set ditance and use arr as an adjacency matrix 
+    struct node* AquaHead = aqua();
+    struct node* OrangeHead = orange();
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
@@ -145,8 +164,6 @@ int main(){
         int choice;
         scanf("%d",&choice);
         printf("\n");
-        struct node* AquaHead = aqua();
-        struct node* OrangeHead = orange();
         if(choice==1){
             char username[100];
             char password1[100];
