@@ -11,16 +11,44 @@ struct node{
     struct node* next;
     struct node* prev;
 };
-//use stack to show history of user login on the site like used in moodle and all , would add plently of lines.
+//use a stack to do something that admin can approve and let others go through.
 //it would just need a push operation, and if they want to hide their user profile from being seen by the admin.
 //they can hide their ids
 //i will also let other users see their ids.
 //this would add lots of lines and make it more interesting and use one more data structure now how could i 
 //possibly use queues , that is the quesiton. 
-struct node1{
+struct stack{
     char name[50];
-    struct node* next;
+    struct stack* next;
 };
+void printS(struct stack* head){
+    int i = 0;
+    printf("List of users previosuly loginned : \n");
+    while(head!=NULL){
+        printf("\n%d. %s",i+1,head->name);
+        i += 1;
+        head = head->next;
+    }
+    printf("\n");
+}
+struct stack* newnode(char name1[50]){
+    struct stack* head = (struct stack*)malloc(sizeof(struct stack));
+    strcpy(head->name,name1);
+    head->next = NULL;
+    return head;
+}
+struct stack* push(struct stack* head,char name1[50]){
+    if(head==NULL){
+        head = newnode(name1);
+        return head;
+    }
+    struct stack* head1 = head;
+    while(head->next!=NULL){
+        head=head->next;
+    }
+    head->next = newnode(name1);
+    return head1;
+}
 //add all the orange line and aqua line stations to the struct and then traverse through it 
 void printLL(struct node* head){
     int i = 0;
@@ -165,11 +193,14 @@ int main(){
     //set ditance and use arr as an adjacency matrix 
     struct node* AquaHead = aqua();
     struct node* OrangeHead = orange();
+    struct stack* history = (struct stack*)malloc(sizeof(struct stack));
+    history = NULL;
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
         //veiw message ka option bhi dal dunga 
-        printf("3. Exit\n\n");
+        printf("3. Exit\n");
+        printf("4. Veiw History of users\n\n");
         printf("Enter Choice : ");
         int choice;
         scanf("%d",&choice);
@@ -194,12 +225,13 @@ int main(){
             }
         }
         else if(choice==2){
-            char username[100];
-            char password1[100];
+            char username[50];
+            char password1[50];
             printf("Enter username(without space) : ");
             scanf("%s",username);
             printf("Enter Password : ");
             scanf("%s",password1);
+            history = push(history,username);
             if(strcmp(username,"admin")==0 && strcmp(password1,"#pas123")==0){
                 while(true){
                     printf("\n\nWhat would you like to do today?");
@@ -326,6 +358,9 @@ int main(){
         else if(choice==3){
             printf("Thank You\n");
             break;
+        }
+        else if(choice==4){
+            printS(history);
         }
         else{
             printf("Enter Choice from 1-3\n");
