@@ -21,6 +21,42 @@ struct stack{
     char name[50];
     struct stack* next;
 };
+struct queue{
+    char name[500];
+    struct queue* next;
+};
+struct queue* newnodeq(char name1[500]){
+    struct queue* head = (struct queue*)malloc(sizeof(struct queue));
+    head->next = NULL;
+    strcpy(head->name,name1);
+    return head;
+}
+struct queue* insertatbeg(char name1[500],struct queue* head){
+    struct queue* head1 = newnodeq(name1);
+    head1->next = head;
+    return head1;
+}
+struct queue* delfrombeg(struct queue* head){
+    struct queue* head1 = head;
+    head = head->next;
+    free(head1);
+    return head;
+}
+void printq(struct queue* head){
+    int i = 0;
+    if(head==NULL){
+        printf("No New Messages");
+        printf("\n");
+        return;
+    }
+    while(head!=NULL){
+        printf("%d. %s",i+1,head->name);
+        head=head->next;
+        i++;
+    }
+    printf("\n");
+    return;
+}
 void printS(struct stack* head){
     int i = 0;
     printf("List of users previosuly loginned : \n");
@@ -209,12 +245,14 @@ int main(){
     struct node* OrangeHead = orange();
     struct stack* history = (struct stack*)malloc(sizeof(struct stack));
     history = NULL;
+    struct queue* notifs = (struct queue*)malloc(sizeof(struct queue));
+    notifs = NULL;
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
-        //veiw message ka option bhi dal dunga 
         printf("3. Exit\n");
-        printf("4. Veiw History of users\n\n");
+        printf("4. Veiw History of users\n");
+        printf("5. Veiw Notifications\n\n");
         printf("Enter Choice : ");
         int choice;
         scanf("%d",&choice);
@@ -252,23 +290,55 @@ int main(){
                     printf("\n1. Add a Station in Orange Line");
                     printf("\n2. Add a Station in Aqua Line");
                     printf("\n3. Veiw users");
-                    printf("\n4. Log Out");
+                    printf("\n4. Send Notification");
+                    printf("\n5. Delete Notification");
+                    printf("\n6. Log Out");
                     int choice3;
                     printf("\nEnter Choice : ");
                     scanf("%d",&choice3);
-                    if(choice==1){
+                    if(choice3==1){
                         printLL(OrangeHead);
                         printf("\nEnter number of stops after which you want to insert : ");
                         //ab insert stop then insert at pos banao , 
                         //insert at beg and end ko alag se banado 
                     }
                     else if(choice3==4){
+                        char str[500]; 
+                        printf("\nEnter message : ");
+                        char c;
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        fgets(str,sizeof(str),stdin);
+                        notifs = insertatbeg(str,notifs);
+                        printf("message sent succesfully.");
+                    }
+                    //choice == 3 pe pura notepad ka data print krdo 
+                    else if(choice3==5){
+                        printf("\nWould you like to delete all the notifs(Y) or one notif(N)?(Y/N) : ");
+                        char h;
+                        char c;
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        scanf("%c",&h);
+                        if(h=='N'){
+                            if(notifs!=NULL){
+                                notifs = delfrombeg(notifs);
+                            }
+                            printf("\nLast message deleted succesfully.");
+                        }
+                        else{
+                            while(notifs!=NULL){
+                                notifs = delfrombeg(notifs);
+                            }
+                            printf("\nAll messages deleted succesfully.");
+                        }
+                    }
+                    else if(choice3==6){
                         break;
                     }
                     else{
                         printf("\nEnter values from 1-4.");
                     }
                 }
+                continue;
             }
             //check if these are in notepad or not
             int exist = 0;
@@ -386,6 +456,11 @@ int main(){
         }
         else if(choice==4){
             printS(history);
+        }
+        else if(choice==5){
+            //dequeue krte jao elements ko ;) and sare print kardo.
+            //dequeue krte vakt use new queue mai dalte jao and then use orignal bando  
+            printq(notifs);
         }
         else{
             printf("Enter Choice from 1-3\n");
