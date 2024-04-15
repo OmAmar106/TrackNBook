@@ -11,7 +11,7 @@ struct node{
     struct node* next;
     struct node* prev;
 };
-//use a stack to do something that admin can approve and let others go through.
+//use a queue to do something that admin can approve and let others go through.
 //it would just need a push operation, and if they want to hide their user profile from being seen by the admin.
 //they can hide their ids
 //i will also let other users see their ids.
@@ -133,6 +133,20 @@ struct node* add(struct node*head,char name[])
     temp->next=newstation;
     newstation->prev=temp;
     return head;
+}
+struct stack* pop(struct stack* head){
+    struct stack* head3 = head;
+    if(head->next==NULL){
+        head=NULL;
+        return head;
+    }
+    while(head->next->next!=NULL){
+        head=head->next;
+    }
+    struct stack* head1 = head->next;
+    head->next = NULL;
+    free(head1);
+    return head3;
 }
 struct node* aqua(){
     struct node*head=NULL;
@@ -260,7 +274,8 @@ int main(){
             int exist = 0;
             if(exist!=1){
                 int choice1 = 0;
-                while(choice1!=6){
+                int flag = 1;
+                while(choice1!=7){
                     printf("\nWelcome %s",username);
                     printf("\n\nWhat would you like to do today?");
                     printf("\n1. Book a Cab");
@@ -268,7 +283,8 @@ int main(){
                     printf("\n3. Book a Metro");
                     printf("\n4. Shortest Path Calculator");
                     printf("\n5. Veiw last Booking");
-                    printf("\n6. Log out");
+                    printf("\n6. Hide ID from history");
+                    printf("\n7. Log out");
                     printf("\n\nEnter choice : ");
                     scanf("%d",&choice1);
                     //shortest path calculator mai dijikistra algo lagane 
@@ -342,7 +358,16 @@ int main(){
                         //apply algo here
                         dijkstra(arr,startpoint-1,endpoint-1);
                     }
-                    else if(choice1==6){
+                    else if(choice1==6 && flag==1){
+                        //pop krdo stack se idhar(remove from ending lagao matlab)
+                        flag = 0;
+                        history = pop(history);
+                        printf("\nRemoved your ID from history successfully.\n");
+                    }
+                    else if(choice1==6 && flag==0){
+                        printf("\nYour username has already been removed.\n");
+                    }
+                    else if(choice1==7){
                         break;
                     }
                     else{
