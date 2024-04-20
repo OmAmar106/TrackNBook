@@ -238,7 +238,6 @@ int main(){
     printf("    ||    ||      \\  //       \\ \\         || \\       ||     \\ ||     ||     || ||     ||  ||     ||  || \\ \n");
     printf("   _||_   ||       \\//         \\ \\______/_||_ \\__   _||_     _||_    ||_____/   \\____//    \\____//  _||_ \\__\n");
     printf("___________________________________________________________________________________________________________\n");
-    //History check krne ke liye ek kam krna naam ke sath save krna , isse log in ka kuch toh use ajayega
     //make a array of string with places within nagpur and make a adjency matrix 
     //set ditance and use arr as an adjacency matrix 
     struct node* AquaHead = aqua();
@@ -250,9 +249,9 @@ int main(){
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
-        printf("3. Exit\n");
+        printf("3. Veiw Notifications\n");
         printf("4. Veiw History of users\n");
-        printf("5. Veiw Notifications\n\n");
+        printf("5. Log out\n\n");
         printf("Enter Choice : ");
         int choice;
         scanf("%d",&choice);
@@ -268,9 +267,34 @@ int main(){
             printf("Enter Password Again : ");
             scanf("%s",password2);
             int exist = 0;
-            //if i find the username already in the notepad file , make exist 1
+            FILE* fptr1;
+            fptr1 = fopen("username.txt","r");
+            char ch;
+            int i1 = 0;
+            char username1[100];
+            while ((ch = fgetc(fptr1)) != EOF) {
+                if (ch == '\n') {
+                    if(strcmp(username1,username)==0){
+                        exist = 1;
+                        break;
+                    }
+                    username1[100];
+                    i1 = 0;
+                    continue;
+                }
+                username1[i1] = ch;
+                i1 += 1;
+            }
+            fclose(fptr1);
             if(strcmp(password1, password2) == 0 && exist!=1){
+                FILE* fptr;
+                fptr = fopen("username.txt", "a+");
+                fprintf(fptr,"%s\n",username);
                 printf("\nSign in now\n");
+                fclose(fptr);
+                fptr = fopen("password.txt", "a+");
+                fprintf(fptr,"%s\n",password1);
+                fclose(fptr);
             }
             else{
                 printf("\nUser already exists or password does not match, Try again.\n");
@@ -301,7 +325,8 @@ int main(){
                         printf("\nEnter number of stops after which you want to insert : ");
                         //ab insert stop then insert at pos banao , 
                         //insert at beg and end ko alag se banado 
-                    }
+                    }                    
+                    //choice == 3 pe pura notepad ka data print krdo 
                     else if(choice3==4){
                         char str[500]; 
                         printf("\nEnter message : ");
@@ -311,7 +336,6 @@ int main(){
                         notifs = insertatbeg(str,notifs);
                         printf("message sent succesfully.");
                     }
-                    //choice == 3 pe pura notepad ka data print krdo 
                     else if(choice3==5){
                         printf("\nWould you like to delete all the notifs(Y) or one notif(N)?(Y/N) : ");
                         char h;
@@ -341,6 +365,7 @@ int main(){
                 continue;
             }
             //check if these are in notepad or not
+            //if in notepad , make exist = 1
             int exist = 0;
             if(exist!=1){
                 int choice1 = 0;
@@ -429,7 +454,6 @@ int main(){
                         dijkstra(arr,startpoint-1,endpoint-1);
                     }
                     else if(choice1==6 && flag==1){
-                        //pop krdo stack se idhar(remove from ending lagao matlab)
                         flag = 0;
                         history = pop(history);
                         printf("\nRemoved your ID from history successfully.\n");
@@ -451,16 +475,14 @@ int main(){
             printf("\n");
         }
         else if(choice==3){
-            printf("Thank You\n");
-            break;
+            printq(notifs);
         }
         else if(choice==4){
             printS(history);
         }
         else if(choice==5){
-            //dequeue krte jao elements ko ;) and sare print kardo.
-            //dequeue krte vakt use new queue mai dalte jao and then use orignal bando  
-            printq(notifs);
+            printf("Thank You\n");
+            break;
         }
         else{
             printf("Enter Choice from 1-3\n");
