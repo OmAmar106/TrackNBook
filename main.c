@@ -322,11 +322,28 @@ int main(){
                     scanf("%d",&choice3);
                     if(choice3==1){
                         printLL(OrangeHead);
-                        printf("\nEnter number of stops after which you want to insert : ");
-                        //ab insert stop then insert at pos banao , 
-                        //insert at beg and end ko alag se banado 
-                    }                    
-                    //choice == 3 pe pura notepad ka data print krdo 
+                        printf("\n\nEnter Name of the Station you want to insert : ");
+                        char station[50];
+                        char c;
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        fgets(station,sizeof(station),stdin);
+                        OrangeHead = add(OrangeHead,station);
+                        printLL(OrangeHead);
+                    }    
+                    else if(choice3==2){
+                        printLL(AquaHead);
+                        printf("\n\nEnter Name of the Station you want to insert : ");
+                        char station[50];
+                        char c;
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        fgets(station,sizeof(station),stdin);
+                        AquaHead = add(AquaHead,station);
+                        printLL(AquaHead);
+                    }                   
+                    else if(choice==3){
+                        continue;
+                        //sare users in notepad print krdo 
+                    }
                     else if(choice3==4){
                         char str[500]; 
                         printf("\nEnter message : ");
