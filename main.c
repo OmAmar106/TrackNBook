@@ -85,7 +85,6 @@ struct stack* push(struct stack* head,char name1[50]){
     head->next = newnode(name1);
     return head1;
 }
-//add all the orange line and aqua line stations to the struct and then traverse through it 
 void printLL(struct node* head){
     int i = 0;
     while(head!=NULL){
@@ -123,17 +122,18 @@ void dijkstra(int graph[N][N], int src,int dest)
 {
     int dist[N]; 
     bool sptSet[N];
-    for (int i = 0; i < N; i++)
-        dist[i] = INT_MAX, sptSet[i] = false;
+    for (int i = 0; i < N; i++){
+        dist[i] = INT_MAX; 
+        sptSet[i] = false;
+    }
     dist[src] = 0;
     for (int count = 0; count < N - 1; count++) {
         int u = minDistance(dist, sptSet);
         sptSet[u] = true;
         for (int v = 0; v < N; v++)
-            if (!sptSet[v] && graph[u][v]
-                && dist[u] != INT_MAX
-                && dist[u] + graph[u][v] < dist[v])
+            if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v]){
                 dist[v] = dist[u] + graph[u][v];
+            }
     }
     printSolution(dist,dest,src);
 }
@@ -339,10 +339,17 @@ int main(){
                         fgets(station,sizeof(station),stdin);
                         AquaHead = add(AquaHead,station);
                         printLL(AquaHead);
-                    }                   
-                    else if(choice==3){
-                        continue;
-                        //sare users in notepad print krdo 
+                    }            
+                    else if(choice3==3){
+                        char ch;
+                        FILE* fptr1;
+                        printf("\n");
+                        fptr1 = fopen("username.txt","r");
+                        int i = 0;
+                        printf("List of Members : \n\n");
+                        while ((ch = fgetc(fptr1)) != EOF) {
+                            printf("%c",ch);
+                        }
                     }
                     else if(choice3==4){
                         char str[500]; 
