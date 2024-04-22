@@ -274,11 +274,11 @@ int main(){
             char username1[100];
             while ((ch = fgetc(fptr1)) != EOF) {
                 if (ch == '\n') {
+                    username1[i1] = '\0';
                     if(strcmp(username1,username)==0){
                         exist = 1;
                         break;
                     }
-                    username1[100];
                     i1 = 0;
                     continue;
                 }
@@ -350,6 +350,7 @@ int main(){
                         while ((ch = fgetc(fptr1)) != EOF) {
                             printf("%c",ch);
                         }
+                        fclose(fptr1);
                     }
                     else if(choice3==4){
                         char str[500]; 
@@ -390,7 +391,61 @@ int main(){
             }
             //check if these are in notepad or not
             //if in notepad , make exist = 1
-            int exist = 0;
+            int exist = 1;
+            char ch;
+            char ch1;
+            FILE* fptr1;
+            FILE* fptr2;
+            printf("\n");
+            fptr1 = fopen("username.txt","r");
+            fptr2 = fopen("password.txt","r");
+            int i1 = 0;
+            char username1[100];
+            while(true){
+                int exist1 = 0;
+                int exist2 = 0;
+                while ((ch = fgetc(fptr1)) != EOF) {
+                    if (ch == '\n') {
+                        username1[i1] = '\0';
+                        if(strcmp(username1,username)==0){
+                            i1 = 0;
+                            exist1 = 1;
+                            break;
+                        }
+                        i1 = 0;
+                        break;
+                    }
+                    username1[i1] = ch;
+                    i1 += 1;
+                }
+                while ((ch1 = fgetc(fptr2)) != EOF) {
+                    if (ch1 == '\n') {
+                        username1[i1] = '\0';
+                        if(strcmp(username1,password1)==0){
+                            i1 = 0;
+                            exist2 = 1;
+                            break;
+                        }
+                        memset(username1, 0, sizeof(username1));
+                        i1 = 0;
+                        break;
+                    }
+                    username1[i1] = ch1;
+                    i1 += 1;
+                }
+                if(exist1 && !exist2){
+                    break;
+                }
+                if(exist1 && exist2){
+                    exist = 0;
+                    break;
+                }
+                if(ch==EOF && ch1==EOF){
+                    break;
+                }
+            }
+            fclose(fptr1);
+            fclose(fptr2);
             if(exist!=1){
                 int choice1 = 0;
                 int flag = 1;
