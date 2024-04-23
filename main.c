@@ -45,7 +45,7 @@ struct queue* delfrombeg(struct queue* head){
 void printq(struct queue* head){
     int i = 0;
     if(head==NULL){
-        printf("No New Messages");
+        printf("Empty");
         printf("\n");
         return;
     }
@@ -137,13 +137,52 @@ void dijkstra(int graph[N][N], int src,int dest)
     }
     printSolution(dist,dest,src);
 }
-int count1(struct queue* head){
+int count1(struct node* head){
     int count = 0;
     while(head!=NULL){
         head=head->next;
         count += 1;
     }
     return count;
+}
+struct queue* booking(struct queue* AquaHead,struct queue* OrangeHead,struct queue* bookings,int line1st,int line1ed,int line2st,int line2ed){
+    //make this function here.
+    char str1[500];
+    if(line1st==-1){
+        //go in orange line
+        line2st -= 1;
+        while(line2st){
+            OrangeHead = OrangeHead->next;
+            line2st -= 1;
+        }
+    }
+    else{
+        line1st -= 1;
+        while(line1st){
+            AquaHead = AquaHead->next;
+            line1st -= 1;
+        }
+    }
+    //u travelled from station here to
+    if(line1ed==-1){
+        //go in orange line
+        line2ed -= 1;
+        while(line2ed){
+            OrangeHead = OrangeHead->next;
+            line2ed -= 1;
+        }
+    }
+    else{
+        line1ed -= 1;
+        while(line1ed){
+            AquaHead = AquaHead->next;
+            line1ed -= 1;
+        }
+    }
+    //add msg to str1
+    bookings = insertatbeg(str1,bookings);
+    //station here
+    return bookings;
 }
 struct node* enteratpos(struct node* head,int data){
     struct node* head1 = head;
@@ -536,10 +575,8 @@ int main(){
                             scanf("%c",&choice);
                             if(choice=='Y'){
                                 printf("\n\nBooked Successfully.");
-                                char str[500]; 
                                 //bookings = insertatbeg(str,bookings);
                                 //insert krna ka ek function banao jo ki us position se position tak ka batayega dist
-                                
                             }
                             else if(choice=='N'){
                                 printf("\n\nTicket cancelled Successfully.");
@@ -559,7 +596,7 @@ int main(){
                                 printf("\n\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("Invalid choice entered.");
+                                printf("\n\nInvalid choice entered.");
                             }
                         }
                         else if(line2st==-1 && line1ed==-1){
@@ -572,10 +609,10 @@ int main(){
                                 printf("\n\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("Invalid choice entered.");
+                                printf("\n\nInvalid choice entered.");
                             }
                         }
-                        else{
+                        else if(line2st!=-1 && line1ed!=-1){
                             printf("\nThe cost is : %d",5*(abs(line1ed-10)+abs(8-line2st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line1ed-10)+abs(8-line2st)));
                             if(choice=='Y'){
@@ -585,9 +622,11 @@ int main(){
                                 printf("\n\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("Invalid choice entered.");
+                                printf("\n\nInvalid choice entered.");
                             }
                         }
+                        bookings = booking(AquaHead,OrangeHead,bookings,line1st,line1ed,line2st,line2ed);
+                        //concanate 3 strings , start from to end -- then add this to bookings. 
                         printf("\n");
                     }
                     else if(choice1==4){
@@ -602,7 +641,7 @@ int main(){
                         dijkstra(arr,startpoint-1,endpoint-1);
                     }
                     else if(choice1==5){
-                        
+                        printq(bookings);
                     }
                     else if(choice1==6 && flag==1){
                         flag = 0;
