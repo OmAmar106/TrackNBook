@@ -137,6 +137,14 @@ void dijkstra(int graph[N][N], int src,int dest)
     }
     printSolution(dist,dest,src);
 }
+int count1(struct queue* head){
+    int count = 0;
+    while(head!=NULL){
+        head=head->next;
+        count += 1;
+    }
+    return count;
+}
 struct node* enteratpos(struct node* head,int data){
     struct node* head1 = head;
     char str[50];
@@ -389,8 +397,6 @@ int main(){
                 }
                 continue;
             }
-            //check if these are in notepad or not
-            //if in notepad , make exist = 1
             int exist = 1;
             char ch;
             char ch1;
@@ -449,6 +455,9 @@ int main(){
             if(exist!=1){
                 int choice1 = 0;
                 int flag = 1;
+                //make a queue and add the bookings to it 
+                struct queue* bookings = (struct queue*)malloc(sizeof(struct queue));
+                bookings = NULL;
                 while(choice1!=7){
                     printf("\nWelcome %s",username);
                     printf("\n\nWhat would you like to do today?");
@@ -456,7 +465,7 @@ int main(){
                     printf("\n2. Book a Bus");
                     printf("\n3. Book a Metro");
                     printf("\n4. Shortest Path Calculator");
-                    printf("\n5. Veiw last Booking");
+                    printf("\n5. Veiw last Bookings.");
                     printf("\n6. Hide ID from history");
                     printf("\n7. Log out");
                     printf("\n\nEnter choice : ");
@@ -479,11 +488,19 @@ int main(){
                             printLL(AquaHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line1st);
+                            if(line1st>count1(AquaHead)){
+                                printf("\nInvalid Input entered.");
+                                continue;
+                            }
                         }
                         else{
                             printLL(OrangeHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line2st);
+                            if(line2st>count1(OrangeHead)){
+                                printf("\nInvalid Input entered.");
+                                continue;;
+                            }
                         }
                         printf("\nEnd Point : ");
                         printf("\n1. Aqua Line");
@@ -496,28 +513,80 @@ int main(){
                             printLL(AquaHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line1ed);
+                            if(line1ed>count1(AquaHead)){
+                                printf("\nInvalid Input entered.");
+                                continue;
+                            }
                         }
                         else{
                             printLL(OrangeHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line2ed);
+                            if(line2ed>count1(OrangeHead)){
+                                printf("\nInvalid Input entered");
+                                continue;
+                            }
                         }
                         if(line1ed!=-1 && line1st!=-1){
                             printf("\nThe cost is : %d",5*(abs(line1ed-line1st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line1ed-line1st)));
+                            //copy ahead of here to other else ifs 
+                            printf("\nWould you like to book the ticket (Y/N): ");
+                            char choice;
+                            scanf("%c",&choice);
+                            if(choice=='Y'){
+                                printf("\n\nBooked Successfully.");
+                                char str[500]; 
+                                //bookings = insertatbeg(str,bookings);
+                                //insert krna ka ek function banao jo ki us position se position tak ka batayega dist
+                                
+                            }
+                            else if(choice=='N'){
+                                printf("\n\nTicket cancelled Successfully.");
+                            }
+                            else{
+                                printf("Invalid choice entered.");
+                            }
                             //add confirmation to book the ticket 
                         }
                         else if(line2ed!=-1 && line2st!=-1){
                             printf("\nThe cost is : %d",5*(abs(line2ed-line2st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line2ed-line2st)));
+                            if(choice=='Y'){
+                                printf("\n\nBooked Successfully.");
+                            }
+                            else if(choice=='N'){
+                                printf("\n\nTicket cancelled Successfully.");
+                            }
+                            else{
+                                printf("Invalid choice entered.");
+                            }
                         }
                         else if(line2st==-1 && line1ed==-1){
                             printf("\nThe cost is : %d",5*(abs(line2ed-8)+abs(10-line1st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line2ed-8)+abs(10-line1st)));
+                            if(choice=='Y'){
+                                printf("\n\nBooked Successfully.");
+                            }
+                            else if(choice=='N'){
+                                printf("\n\nTicket cancelled Successfully.");
+                            }
+                            else{
+                                printf("Invalid choice entered.");
+                            }
                         }
                         else{
                             printf("\nThe cost is : %d",5*(abs(line1ed-10)+abs(8-line2st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line1ed-10)+abs(8-line2st)));
+                            if(choice=='Y'){
+                                printf("\n\nBooked Successfully.");
+                            }
+                            else if(choice=='N'){
+                                printf("\n\nTicket cancelled Successfully.");
+                            }
+                            else{
+                                printf("Invalid choice entered.");
+                            }
                         }
                         printf("\n");
                     }
@@ -531,6 +600,9 @@ int main(){
                         scanf("%d",&endpoint);
                         //apply algo here
                         dijkstra(arr,startpoint-1,endpoint-1);
+                    }
+                    else if(choice1==5){
+                        
                     }
                     else if(choice1==6 && flag==1){
                         flag = 0;
