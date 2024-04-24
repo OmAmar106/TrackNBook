@@ -1,8 +1,11 @@
 # <pre>                    TrackNBook</pre>
 <hr><br>
-This is a Ticket Booking Project made using only C, that uses the following Data Structures:<br><br>
+DS Project<br>
+This is a Ticket Booking Project made using only C can be used using C CLI, that uses the following Data Structures:<br><br>
 1. Linked List <br>
-2. Stack <br>
-3. Queue <br>
-4. Graph <br><br>
-It is an ongoing process in which you caan book tickets for different vehicles , see the shortest distance between any two destinations(using grpah theory) and many more features.
+2. Double Linked List <br>
+3. Stack <br>
+4. Queue <br>
+5. Graph <br><br>
+It has many features for different users such as admin.<br>
+Consists of locations in Nagpur.<br>
