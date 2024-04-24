@@ -1,47 +1,51 @@
+/*
+int main starts from line : 311
+*/
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #include<stdbool.h>
 #include<limits.h>
-#define N 20
-char locations[N][20] = {"Butibori","IIIT Nagpur","Airport Metro"};
-int arr[N][N];
+#define N 10
+//Double Linked List
 struct node{
     char name[50];
     struct node* next;
     struct node* prev;
 };
-//use a queue to do something that admin can approve and let others go through.
-//it would just need a push operation, and if they want to hide their user profile from being seen by the admin.
-//they can hide their ids
-//i will also let other users see their ids.
-//this would add lots of lines and make it more interesting and use one more data structure now how could i 
-//possibly use queues , that is the quesiton. 
+//Stack made using LL.
 struct stack{
     char name[50];
     struct stack* next;
 };
+//Queue made using LL.
 struct queue{
     char name[500];
     struct queue* next;
 };
+//Function to add a new node in a queue.
 struct queue* newnodeq(char name1[500]){
     struct queue* head = (struct queue*)malloc(sizeof(struct queue));
     head->next = NULL;
     strcpy(head->name,name1);
     return head;
 }
+//Function to insert a node at beginning in a queue.
+//(Enqueue)
 struct queue* insertatbeg(char name1[500],struct queue* head){
     struct queue* head1 = newnodeq(name1);
     head1->next = head;
     return head1;
 }
+//Function to delete from beginning in a queue.
+//(Dequeue)
 struct queue* delfrombeg(struct queue* head){
     struct queue* head1 = head;
     head = head->next;
     free(head1);
     return head;
 }
+//Function to print the contents of a queue.
 void printq(struct queue* head){
     int i = 0;
     if(head==NULL){
@@ -50,13 +54,14 @@ void printq(struct queue* head){
         return;
     }
     while(head!=NULL){
-        printf("%d. %s",i+1,head->name);
+        printf("%d. %s\n",i+1,head->name);
         head=head->next;
         i++;
     }
     printf("\n");
     return;
 }
+//Function to print the contents of a stack.
 void printS(struct stack* head){
     int i = 0;
     printf("List of users previosuly loginned : \n");
@@ -65,14 +70,15 @@ void printS(struct stack* head){
         i += 1;
         head = head->next;
     }
-    printf("\n");
 }
+//Function to create a new node of a stack.
 struct stack* newnode(char name1[50]){
     struct stack* head = (struct stack*)malloc(sizeof(struct stack));
     strcpy(head->name,name1);
     head->next = NULL;
     return head;
 }
+//Function to push a ndoe in a stack containing the value name1.
 struct stack* push(struct stack* head,char name1[50]){
     if(head==NULL){
         head = newnode(name1);
@@ -85,6 +91,7 @@ struct stack* push(struct stack* head,char name1[50]){
     head->next = newnode(name1);
     return head1;
 }
+//Function to print a LinkedList.
 void printLL(struct node* head){
     int i = 0;
     while(head!=NULL){
@@ -93,11 +100,13 @@ void printLL(struct node* head){
         i++;
     }
 }
+//Function to print the list of vertices in the graph meaning the places in the array.
 void print(char arr[N][20]){
     for(int i=0;i<N;i++){
         printf("\n%d. %s",i+1,arr[i]);
     }
 }
+//Function to create a new node for the double linked list.
 struct node* createnode(char name[]){
     struct node* new;
     new=(struct node*)malloc(sizeof(struct node));
@@ -106,19 +115,35 @@ struct node* createnode(char name[]){
     new->prev=NULL;
     return new;
 }
+//Function used to calculate the minDistance for the Dijikistras algorithm.
 int minDistance(int dist[], bool sptSet[])
 {
-    int min = INT_MAX, min_index;
-    for (int v = 0; v < N; v++)
-        if (sptSet[v] == false && dist[v] <= min)
-            min = dist[v], min_index = v;
-    return min_index;
+    int min = INT_MAX;
+    int mini;
+    for (int v = 0; v < N; v++){
+        if (sptSet[v] == false && dist[v] <= min){
+            min = dist[v];
+            mini = v;
+        }
+    }
+    return mini;
 }
-void printSolution(int dist[],int dest,int src)
-{
-    printf("\nDistance from %s to %s is %d\n",locations[src],locations[dest],dist[dest]);
-}
-void dijkstra(int graph[N][N], int src,int dest)
+//Graphs of locations in Nagpur along with distances.
+char locations[N][20] = {"IIITN","BUTIBORI","VR MALL","ETERNITY MALL","EMPRESS MALL","MAHARAJBAG ZOO","FUTALA LAKE","AMBAZARI LAKE","VNIT","GOREWADA ZOO"};
+int arr[N][N] = {
+    {0,3,0,0,0,0,0,0,0,27},
+    {3,0,25,0,0,0,0,0,22,0},
+    {0,25,0,2,2,3,0,5,0,0},
+    {0,0,2,0,1,1,4,0,4,9},
+    {0,0,2,1,0,0,0,5,5,0},
+    {0,0,3,1,0,0,3,3,3,9},
+    {0,0,0,4,0,3,0,3,3,0},
+    {0,0,5,0,5,3,3,0,0,8},
+    {0,22,0,4,5,3,3,0,0,3},
+    {27,0,0,9,0,9,0,8,3,0}
+};
+//dijikistras algorithm to calculate the minimum distance between two points.
+int dijkstra(int graph[N][N], int src,int dest)
 {
     int dist[N]; 
     bool sptSet[N];
@@ -135,8 +160,9 @@ void dijkstra(int graph[N][N], int src,int dest)
                 dist[v] = dist[u] + graph[u][v];
             }
     }
-    printSolution(dist,dest,src);
+    return dist[dest];
 }
+//Function to count the number of nodes in the double linked list.
 int count1(struct node* head){
     int count = 0;
     while(head!=NULL){
@@ -145,45 +171,75 @@ int count1(struct node* head){
     }
     return count;
 }
-struct queue* booking(struct queue* AquaHead,struct queue* OrangeHead,struct queue* bookings,int line1st,int line1ed,int line2st,int line2ed){
-    //make this function here.
-    char str1[500];
+//Function to create a message that will be kept in history telling the source and destination station.
+struct queue* booking(struct node* AquaHead,struct node* OrangeHead,struct queue* bookings,int line1st,int line1ed,int line2st,int line2ed){
+    //the string starts with you booked ticket from 
+    char str1[500] = "You Booked Ticket from ";
+    //checks whethe the starting point is in orange line or aqua line and adds the name of the station 
+    //to the string accoring to it.
     if(line1st==-1){
-        //go in orange line
         line2st -= 1;
-        while(line2st){
+        while(line2st>0){
             OrangeHead = OrangeHead->next;
             line2st -= 1;
         }
+        strcat(str1,OrangeHead->name);
     }
     else{
         line1st -= 1;
-        while(line1st){
+        while(line1st>0){
             AquaHead = AquaHead->next;
             line1st -= 1;
         }
+        strcat(str1,AquaHead->name);
     }
-    //u travelled from station here to
+    //after concatenating the name of the station , we concatenate to.
+    char str2[5] = " to ";
+    strcat(str1,str2);
+    //we do the same thing for the destination station and then concatenate it.
     if(line1ed==-1){
-        //go in orange line
         line2ed -= 1;
-        while(line2ed){
+        while(line2ed>0){
             OrangeHead = OrangeHead->next;
             line2ed -= 1;
         }
+        strcat(str1,OrangeHead->name);
     }
     else{
         line1ed -= 1;
-        while(line1ed){
+        while(line1ed>0){
             AquaHead = AquaHead->next;
             line1ed -= 1;
         }
+        strcat(str1,AquaHead->name);
     }
-    //add msg to str1
+    char str23[20] = " by Train.";
+    strcat(str1,str23);
+    //we add it to a queue named booking that can be seen later on as history.
     bookings = insertatbeg(str1,bookings);
-    //station here
     return bookings;
 }
+//function if booking is done by some other method.
+struct queue* bookingo(struct queue* bookings,int method,int st,int ed){
+    char str1[500];
+    //checking is booking is done for cab or for bus.
+    if(method==1){
+        strcat(str1,"You Booked Cab from ");
+    }
+    else{
+        strcat(str1,"You Booked Bus from ");
+    }
+    strcat(str1,locations[st]);
+    char str2[5] = " to ";
+    strcat(str1,str2);
+    strcat(str1,locations[ed]);
+    char str23[2] = ".";
+    strcat(str1,str23);
+    //we add it to a queue named booking that can be seen later on as history.
+    bookings = insertatbeg(str1,bookings);
+    return bookings;
+}
+//function to enter node at position in double linked list. For metro stations.
 struct node* enteratpos(struct node* head,int data){
     struct node* head1 = head;
     char str[50];
@@ -200,8 +256,8 @@ struct node* enteratpos(struct node* head,int data){
     newnode->next->prev = newnode;
     return head1;
 }
-//make insert at beg and at end depending upon the input
-struct node* add(struct node*head,char name[])
+//function to add node in double linked list for creating orange and aqua lines.
+struct node* add(struct node *head,char name[])
 {
     struct node*newstation=createnode(name);
     if(head==NULL)
@@ -217,6 +273,7 @@ struct node* add(struct node*head,char name[])
     newstation->prev=temp;
     return head;
 }
+//Function to pop in a stack.
 struct stack* pop(struct stack* head){
     struct stack* head3 = head;
     if(head->next==NULL){
@@ -231,6 +288,7 @@ struct stack* pop(struct stack* head){
     free(head1);
     return head3;
 }
+//Function to create the Aqua Line for metro station.
 struct node* aqua(){
     struct node*head=NULL;
     head=add(head,"PRAJAPATI NAGAR");
@@ -255,6 +313,7 @@ struct node* aqua(){
     head=add(head,"LOKMANYA NAGAR");
     return head;
 }
+//Function to create the orange line for metro stations.
 struct node*orange(){
     struct node*head=NULL;
     head=add(head,"AUTOMATIVE SQUARE");
@@ -277,6 +336,7 @@ struct node*orange(){
     head=add(head,"KHAPRI");
     return head;
 }
+//Main code starts here.
 int main(){
     printf(" ________  _______        _       ______  _   __    _  _     ___     ______     _____      _____     _  __\n");
     printf("'   ||   '||      |     // \\   //       \\ || //      || \\     ||     ||     \\  //     \\   //     \\   || //\n");
@@ -284,21 +344,24 @@ int main(){
     printf("    ||    || ____/    //_____\\ ||         ||\\     _  ||    \\  ||  _  ||_____/  ||     ||  ||     ||  ||\\\n");
     printf("    ||    ||      \\  //       \\ \\         || \\       ||     \\ ||     ||     || ||     ||  ||     ||  || \\ \n");
     printf("   _||_   ||       \\//         \\ \\______/_||_ \\__   _||_     _||_    ||_____/   \\____//    \\____//  _||_ \\__\n");
-    printf("___________________________________________________________________________________________________________\n");
-    //make a array of string with places within nagpur and make a adjency matrix 
-    //set ditance and use arr as an adjacency matrix 
+    printf("___________________________________________________________________________________________________________\n"); 
+    //Creating the Aqua and orange line at the start of the code, so that it stays the same until 
+    //we exit the code.
     struct node* AquaHead = aqua();
     struct node* OrangeHead = orange();
+    //Creating a history stack, that saves the history of users that loginned.
     struct stack* history = (struct stack*)malloc(sizeof(struct stack));
     history = NULL;
+    //Create a Notifications queue, that saves the message sent from admin for everyone.
     struct queue* notifs = (struct queue*)malloc(sizeof(struct queue));
     notifs = NULL;
+    //Loop goes on until we exit.
     while(1){
         printf("\n1. Sign Up\n");
         printf("2. Log In\n");
         printf("3. Veiw Notifications\n");
         printf("4. Veiw History of users\n");
-        printf("5. Log out\n\n");
+        printf("5. Exit\n\n");
         printf("Enter Choice : ");
         int choice;
         scanf("%d",&choice);
@@ -307,6 +370,7 @@ int main(){
             char username[100];
             char password1[100];
             char password2[100];
+            //asks user to enter username and password
             printf("Enter UserName(without space) : ");
             scanf("%s",username);
             printf("Enter Password : ");
@@ -319,6 +383,7 @@ int main(){
             char ch;
             int i1 = 0;
             char username1[100];
+            //checks if the username already exists.
             while ((ch = fgetc(fptr1)) != EOF) {
                 if (ch == '\n') {
                     username1[i1] = '\0';
@@ -333,6 +398,8 @@ int main(){
                 i1 += 1;
             }
             fclose(fptr1);
+            //checks if the first password inputted and the second password inputted are the same or not.
+            //if they are same and the username already does not exists, it creates the new username and password.
             if(strcmp(password1, password2) == 0 && exist!=1){
                 FILE* fptr;
                 fptr = fopen("username.txt", "a+");
@@ -350,12 +417,17 @@ int main(){
         else if(choice==2){
             char username[50];
             char password1[50];
+            //Asks for username and password.
             printf("Enter username(without space) : ");
             scanf("%s",username);
             printf("Enter Password : ");
             scanf("%s",password1);
+            //Pushes the input in the history stack that can be later seen by others to 
+            //check who has previously loginned.
             history = push(history,username);
+            //if the username is admin and the password is #pas123 , the user is loginned as admin.
             if(strcmp(username,"admin")==0 && strcmp(password1,"#pas123")==0){
+                //Loop goes on until the user selects Log Out.
                 while(true){
                     printf("\n\nWhat would you like to do today?");
                     printf("\n1. Add a Station in Orange Line");
@@ -367,6 +439,7 @@ int main(){
                     int choice3;
                     printf("\nEnter Choice : ");
                     scanf("%d",&choice3);
+                    //To insert a station in Orange Line.
                     if(choice3==1){
                         printLL(OrangeHead);
                         printf("\n\nEnter Name of the Station you want to insert : ");
@@ -377,6 +450,7 @@ int main(){
                         OrangeHead = add(OrangeHead,station);
                         printLL(OrangeHead);
                     }    
+                    //To insert a station in Aqua Line.
                     else if(choice3==2){
                         printLL(AquaHead);
                         printf("\n\nEnter Name of the Station you want to insert : ");
@@ -387,6 +461,7 @@ int main(){
                         AquaHead = add(AquaHead,station);
                         printLL(AquaHead);
                     }            
+                    //To check the list of users that have signned up.
                     else if(choice3==3){
                         char ch;
                         FILE* fptr1;
@@ -394,20 +469,25 @@ int main(){
                         fptr1 = fopen("username.txt","r");
                         int i = 0;
                         printf("List of Members : \n\n");
+                        //Just prints all the usernames in the username database.
                         while ((ch = fgetc(fptr1)) != EOF) {
                             printf("%c",ch);
                         }
                         fclose(fptr1);
                     }
+                    //To send message to all the users globally.
                     else if(choice3==4){
                         char str[500]; 
                         printf("\nEnter message : ");
                         char c;
                         while ((c = getchar()) != '\n' && c != EOF);
                         fgets(str,sizeof(str),stdin);
+                        //just inserts it into notifs and the prints when asked.
                         notifs = insertatbeg(str,notifs);
                         printf("message sent succesfully.");
                     }
+                    //To delete all the notifications or delete a single notifications.
+                    //If single then dequeue, else delete the whole queue.
                     else if(choice3==5){
                         printf("\nWould you like to delete all the notifs(Y) or one notif(N)?(Y/N) : ");
                         char h;
@@ -427,11 +507,12 @@ int main(){
                             printf("\nAll messages deleted succesfully.");
                         }
                     }
+                    //To log out , we just break out of the while loop.
                     else if(choice3==6){
                         break;
                     }
                     else{
-                        printf("\nEnter values from 1-4.");
+                        printf("\nEnter values from 1-6.");
                     }
                 }
                 continue;
@@ -449,6 +530,9 @@ int main(){
             while(true){
                 int exist1 = 0;
                 int exist2 = 0;
+                //in every while loop, it just analyzes a single line of the txt file 
+                //if the corresponding passowrd of the same line and username both are same
+                //with the inputted username and password , it logins successfully.
                 while ((ch = fgetc(fptr1)) != EOF) {
                     if (ch == '\n') {
                         username1[i1] = '\0';
@@ -482,6 +566,7 @@ int main(){
                     break;
                 }
                 if(exist1 && exist2){
+                    //password and username both are same.
                     exist = 0;
                     break;
                 }
@@ -491,12 +576,12 @@ int main(){
             }
             fclose(fptr1);
             fclose(fptr2);
+            //initialising booking to null in every login 
+            struct queue* bookings = (struct queue*)malloc(sizeof(struct queue));
+            bookings = NULL;
             if(exist!=1){
                 int choice1 = 0;
                 int flag = 1;
-                //make a queue and add the bookings to it 
-                struct queue* bookings = (struct queue*)malloc(sizeof(struct queue));
-                bookings = NULL;
                 while(choice1!=7){
                     printf("\nWelcome %s",username);
                     printf("\n\nWhat would you like to do today?");
@@ -509,12 +594,82 @@ int main(){
                     printf("\n7. Log out");
                     printf("\n\nEnter choice : ");
                     scanf("%d",&choice1);
-                    //shortest path calculator mai dijikistra algo lagane 
-                    //aur options ke bade soche asap
                     if(choice1==1){
-                        continue;
+                        int startpoint;
+                        print(locations);
+                        printf("\n\nEnter Start Point : ");
+                        scanf("%d",&startpoint);
+                        int endpoint;
+                        printf("\nEnter End Point : ");        
+                        scanf("%d",&endpoint);
+                        //checks if the given start and end points are possible or not 
+                        if(startpoint<=10 && endpoint>0 && startpoint>0 && endpoint<=10){
+                            //calcuates the distance between them 
+                            int f = dijkstra(arr,startpoint-1,endpoint-1);
+                            printf("\nThe Distance form %s to %s is %dkms.",locations[startpoint],locations[endpoint],f);
+                            printf("\nThe price is : %d",20*f);
+                            char c;
+                            char choice;
+                            printf("\n\nWould you like to book the ticket (Y/N): ");
+                            while ((c = getchar()) != '\n' && c != EOF);
+                            scanf("%c",&choice);
+                            //adds it to the bookings queue.
+                            if(choice=='Y'){
+                                printf("\nBooked Successfully.");
+                                //the 2nd parameter being 1 means that mode is cab.
+                                bookings = bookingo(bookings,1,startpoint-1,endpoint-1);
+                            }
+                            else if(choice=='N'){
+                                printf("\nTicket cancelled Successfully.");
+                            }
+                            else{
+                                printf("\nInvalid choice entered.");
+                            }
+                        }
+                        else{
+                            printf("\nInvalid start or end points.");
+                        }
+                        printf("\n");
+                    }
+                    else if(choice1==2){
+                        int startpoint;
+                        print(locations);
+                        printf("\n\nEnter Start Point : ");
+                        scanf("%d",&startpoint);
+                        int endpoint;
+                        printf("\nEnter End Point : ");        
+                        scanf("%d",&endpoint);
+                        //checks if the given start and end points are possible or not 
+                        if(startpoint<=10 && endpoint>0 && startpoint>0 && endpoint<=10){
+                            //calcuates the distance between them 
+                            int f = dijkstra(arr,startpoint-1,endpoint-1);
+                            printf("\nThe Distance form %s to %s is %dkms.",locations[startpoint],locations[endpoint],f);
+                            printf("\nThe price is : %d",3*f);
+                            char choice;
+                            printf("\n\nWould you like to book the ticket (Y/N): ");
+                            char c;
+                            while ((c = getchar()) != '\n' && c != EOF);
+                            scanf("%c",&choice);
+                            //adds it to the bookings queue.
+                            if(choice=='Y'){
+                                printf("\nBooked Successfully.");
+                                //the 2nd parameter being 2 means that mode is bus.
+                                bookings = bookingo(bookings,2,startpoint-1,endpoint-1);
+                            }
+                            else if(choice=='N'){
+                                printf("\nTicket cancelled Successfully.");
+                            }
+                            else{
+                                printf("\nInvalid choice entered.");
+                            }
+                        }
+                        else{
+                            printf("\nInvalid start or end points.");
+                        }
+                        printf("\n");
                     }
                     else if(choice1==3){
+                        //Asks whether you are starting from aqua line or orange line.
                         printf("\nStart Point : ");
                         printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
@@ -527,7 +682,7 @@ int main(){
                             printLL(AquaHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line1st);
-                            if(line1st>count1(AquaHead)){
+                            if(line1st>count1(AquaHead) || line1st<=0){
                                 printf("\nInvalid Input entered.");
                                 continue;
                             }
@@ -536,12 +691,15 @@ int main(){
                             printLL(OrangeHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line2st);
-                            if(line2st>count1(OrangeHead)){
+                            if(line2st>count1(OrangeHead) || line2st<=0){
                                 printf("\nInvalid Input entered.");
-                                continue;;
+                                continue;
                             }
                         }
+                        //checks whether the input is invalid
+                        //If invalid, then it ends here.
                         printf("\nEnd Point : ");
+                        //Asks for the end point.
                         printf("\n1. Aqua Line");
                         printf("\n2. Orange Line");
                         printf("\nEnter Choice : ");
@@ -552,7 +710,7 @@ int main(){
                             printLL(AquaHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line1ed);
-                            if(line1ed>count1(AquaHead)){
+                            if(line1ed>count1(AquaHead)||line1ed<=0){
                                 printf("\nInvalid Input entered.");
                                 continue;
                             }
@@ -561,74 +719,91 @@ int main(){
                             printLL(OrangeHead);
                             printf("\nEnter Choice : ");
                             scanf("%d",&line2ed);
-                            if(line2ed>count1(OrangeHead)){
+                            if(line2ed>count1(OrangeHead)||line2ed<=0){
                                 printf("\nInvalid Input entered");
                                 continue;
                             }
                         }
+                        char choice;
+                        //Here onwards, checks the number of station needed to be travelled(going through sitabuldi)
+                        //The cost is number of stations multiplied by 5.
+                        //Asks for a confirmation to book the ticket.
+                        //Adds the booking to the booking queue.
+                        //Which can be printed later.
                         if(line1ed!=-1 && line1st!=-1){
                             printf("\nThe cost is : %d",5*(abs(line1ed-line1st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line1ed-line1st)));
-                            //copy ahead of here to other else ifs 
-                            printf("\nWould you like to book the ticket (Y/N): ");
-                            char choice;
+                            printf("\n\nWould you like to book the ticket (Y/N): ");
+                            char c;
+                            while ((c = getchar()) != '\n' && c != EOF);
                             scanf("%c",&choice);
                             if(choice=='Y'){
-                                printf("\n\nBooked Successfully.");
-                                //bookings = insertatbeg(str,bookings);
-                                //insert krna ka ek function banao jo ki us position se position tak ka batayega dist
+                                printf("\nBooked Successfully.");
                             }
                             else if(choice=='N'){
-                                printf("\n\nTicket cancelled Successfully.");
+                                printf("\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("Invalid choice entered.");
+                                printf("\nInvalid choice entered.");
                             }
-                            //add confirmation to book the ticket 
                         }
                         else if(line2ed!=-1 && line2st!=-1){
                             printf("\nThe cost is : %d",5*(abs(line2ed-line2st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line2ed-line2st)));
+                            printf("\n\nWould you like to book the ticket (Y/N): ");
+                            char c;
+                            while ((c = getchar()) != '\n' && c != EOF);
+                            scanf("%c",&choice);
                             if(choice=='Y'){
-                                printf("\n\nBooked Successfully.");
+                                printf("\nBooked Successfully.");
                             }
                             else if(choice=='N'){
-                                printf("\n\nTicket cancelled Successfully.");
+                                printf("\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("\n\nInvalid choice entered.");
+                                printf("\nInvalid choice entered.");
                             }
                         }
                         else if(line2st==-1 && line1ed==-1){
                             printf("\nThe cost is : %d",5*(abs(line2ed-8)+abs(10-line1st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line2ed-8)+abs(10-line1st)));
+                            printf("\n\nWould you like to book the ticket (Y/N): ");
+                            char c;
+                            while ((c = getchar()) != '\n' && c != EOF);
+                            scanf("%c",&choice);
                             if(choice=='Y'){
-                                printf("\n\nBooked Successfully.");
+                                printf("\nBooked Successfully.");
                             }
                             else if(choice=='N'){
-                                printf("\n\nTicket cancelled Successfully.");
+                                printf("\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("\n\nInvalid choice entered.");
+                                printf("\nInvalid choice entered.");
                             }
                         }
                         else if(line2st!=-1 && line1ed!=-1){
                             printf("\nThe cost is : %d",5*(abs(line1ed-10)+abs(8-line2st)));
                             printf("\nNumber of station you will be passing: %d",(abs(line1ed-10)+abs(8-line2st)));
+                            printf("\n\nWould you like to book the ticket (Y/N): ");
+                            char c;
+                            while ((c = getchar()) != '\n' && c != EOF);
+                            scanf("%c",&choice);
                             if(choice=='Y'){
-                                printf("\n\nBooked Successfully.");
+                                printf("\nBooked Successfully.");
                             }
                             else if(choice=='N'){
-                                printf("\n\nTicket cancelled Successfully.");
+                                printf("\nTicket cancelled Successfully.");
                             }
                             else{
-                                printf("\n\nInvalid choice entered.");
+                                printf("\nInvalid choice entered.");
                             }
                         }
-                        bookings = booking(AquaHead,OrangeHead,bookings,line1st,line1ed,line2st,line2ed);
-                        //concanate 3 strings , start from to end -- then add this to bookings. 
+                        if(choice=='Y'){
+                            bookings = booking(AquaHead,OrangeHead,bookings,line1st,line1ed,line2st,line2ed);
+                        }
                         printf("\n");
                     }
+                    //krna hain
                     else if(choice1==4){
                         int startpoint;
                         print(locations);
@@ -637,25 +812,39 @@ int main(){
                         int endpoint;
                         printf("\nEnter End Point : ");        
                         scanf("%d",&endpoint);
-                        //apply algo here
-                        dijkstra(arr,startpoint-1,endpoint-1);
+                        //you dijikistras algo to check distance between two places.
+                        if(startpoint<=10 && endpoint>0 && startpoint>0 && endpoint<=10){
+                            int f = dijkstra(arr,startpoint-1,endpoint-1);
+                            printf("\nThe Distance form %s to %s is %dkms.",locations[startpoint],locations[endpoint],f);
+                        }
+                        else{
+                            printf("\nInvalid start or end points.");
+                        }
+                        printf("\n");
                     }
+                    //Just prints the list of previous bookings.
                     else if(choice1==5){
+                        printf("\n");
                         printq(bookings);
                     }
+                    //Makes the ID Private
+                    //That is removes it from the history os users stack.
                     else if(choice1==6 && flag==1){
                         flag = 0;
                         history = pop(history);
                         printf("\nRemoved your ID from history successfully.\n");
                     }
+                    //If the ID is already removed then prints that 
+                    //it is already removed.
                     else if(choice1==6 && flag==0){
                         printf("\nYour username has already been removed.\n");
                     }
+                    //Logs out.
                     else if(choice1==7){
                         break;
                     }
                     else{
-                        printf("\nPlease enter from 1 to 6\n");
+                        printf("\nPlease enter from 1 to 7\n");
                     }
                 }
             }
@@ -664,18 +853,21 @@ int main(){
             }
             printf("\n");
         }
+        //Prints the list of messages sent by the admin.
         else if(choice==3){
             printq(notifs);
         }
+        //Prints the history of users who have previosuly loginned.
         else if(choice==4){
             printS(history);
         }
+        //Exits the program.
         else if(choice==5){
             printf("Thank You\n");
             break;
         }
         else{
-            printf("Enter Choice from 1-3\n");
+            printf("Enter Choice from 1-5\n");
         }
     }
 }
