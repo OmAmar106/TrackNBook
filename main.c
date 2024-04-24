@@ -1,5 +1,5 @@
 /*
-int main starts from line : 311
+int main starts from line : 340
 */
 #include<stdio.h>
 #include<string.h>
@@ -337,6 +337,7 @@ struct node*orange(){
     return head;
 }
 //Main code starts here.
+//To use the code , first sign up and make a account or you could use the admin account.
 int main(){
     printf(" ________  _______        _       ______  _   __    _  _     ___     ______     _____      _____     _  __\n");
     printf("'   ||   '||      |     // \\   //       \\ || //      || \\     ||     ||     \\  //     \\   //     \\   || //\n");
