@@ -39,11 +39,18 @@ struct queue* insertatbeg(char name1[500],struct queue* head){
 }
 //Function to delete from beginning in a queue.
 //(Dequeue)
-struct queue* delfrombeg(struct queue* head){
-    struct queue* head1 = head;
-    head = head->next;
+struct queue* delfromend(struct queue* head){
+    struct queue* head2 = head;
+    if(head->next==NULL){
+        return NULL;
+    }
+    while(head->next->next!=NULL){
+        head = head->next;
+    }
+    struct queue* head1 = head->next;
+    head->next = NULL;
     free(head1);
-    return head;
+    return head2;
 }
 //Function to print the contents of a queue.
 void printq(struct queue* head){
@@ -70,6 +77,7 @@ void printS(struct stack* head){
         i += 1;
         head = head->next;
     }
+    printf("\n");
 }
 //Function to create a new node of a stack.
 struct stack* newnode(char name1[50]){
@@ -497,13 +505,13 @@ int main(){
                         scanf("%c",&h);
                         if(h=='N'){
                             if(notifs!=NULL){
-                                notifs = delfrombeg(notifs);
+                                notifs = delfromend(notifs);
                             }
                             printf("\nLast message deleted succesfully.");
                         }
                         else{
                             while(notifs!=NULL){
-                                notifs = delfrombeg(notifs);
+                                notifs = delfromend(notifs);
                             }
                             printf("\nAll messages deleted succesfully.");
                         }
@@ -816,7 +824,7 @@ int main(){
                         //you dijikistras algo to check distance between two places.
                         if(startpoint<=10 && endpoint>0 && startpoint>0 && endpoint<=10){
                             int f = dijkstra(arr,startpoint-1,endpoint-1);
-                            printf("\nThe Distance form %s to %s is %dkms.",locations[startpoint],locations[endpoint],f);
+                            printf("\nThe Distance form %s to %s is %dkms.",locations[startpoint-1],locations[endpoint-1],f);
                         }
                         else{
                             printf("\nInvalid start or end points.");
